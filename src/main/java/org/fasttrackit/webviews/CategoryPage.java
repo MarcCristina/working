@@ -7,7 +7,15 @@ public class CategoryPage {
     @FindBy (css = ".category-title h1")
     private WebElement title;
 
+    @FindBy (css = ".category-image img")
+    private WebElement banner;
+
+    public WebElement getBanner() {
+        return banner;
+    }
+
     public WebElement getTitle() {
         return title;
     }
 }
+

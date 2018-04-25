@@ -15,10 +15,10 @@ public class CategoryTest extends TestBase {
 
 
     @Test
-    public void categoryTitleTest(){
+    public void categoryTitleTest() {
         By womenMenu = By.linkText("WOMEN");
         By newArrivals = By.linkText("New Arrivals");
-        List <By> meniu = Arrays.asList(womenMenu,newArrivals);
+        List<By> meniu = Arrays.asList(womenMenu, newArrivals);
 
         mouseOverAndClickLast(meniu);
 
@@ -27,9 +27,36 @@ public class CategoryTest extends TestBase {
         String title = categorypage.getTitle().getText();
 
         assertThat("Page title isn't correct", title, is("NEW ARRIVALS"));
+    }
+
+
+    @Test
+    public void bannerDispayedTest() {
+        By womenMenu = By.linkText("WOMEN");
+        By newArrivals = By.linkText("New Arrivals");
+        List<By> meniu = Arrays.asList(womenMenu, newArrivals);
+
+        mouseOverAndClickLast(meniu);
+
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+
+        assertThat("Banner wasn't displayed", categoryPage.getBanner().isDisplayed());
 
 
     }
 
+    @Test
+    public void shoesSubcategoryPresentsTest() {
+        By accessoriesMenu = By.linkText("ACCESSORIES");
+        List<By> meniu = Arrays.asList(accessoriesMenu);
+
+        mouseOver(meniu);
+
+        assertThat("Shoes subcategory not presents", driver.findElement(By.linkText("Shoes")).isDisplayed());
+
+    }
+
 }
+
+
 

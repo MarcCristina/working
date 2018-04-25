@@ -29,14 +29,19 @@ public class TestBase {
     }
 
     protected void mouseOverAndClickLast(List<By> locators) {
+        Actions actions = mouseOver(locators);
+
+        actions.click().perform();
+    }
+
+    protected Actions mouseOver(List<By> locators) {
         Actions actions = new Actions(driver);
 
         for (By locator : locators) {
             actions.moveToElement(driver.findElement(locator))
                     .perform();
         }
-
-        actions.click().perform();
+        return actions;
     }
 
     protected void waitForPageToLoad(long timeout) {
@@ -61,3 +66,4 @@ public class TestBase {
         return PageFactory.initElements(driver, pageObjectClass);
     }
 }
+
