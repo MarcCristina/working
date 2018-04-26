@@ -10,6 +10,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
 
 public class CategoryTest extends TestBase {
 
@@ -55,6 +56,41 @@ public class CategoryTest extends TestBase {
         assertThat("Shoes subcategory not presents", driver.findElement(By.linkText("Shoes")).isDisplayed());
 
     }
+
+    @Test
+    public void resultsPerPageTest() {
+        By womenMenu = By.linkText("WOMEN");
+        By newArrivals = By.linkText("New Arrivals");
+        List<By> meniu = Arrays.asList(womenMenu, newArrivals);
+
+        mouseOverAndClickLast(meniu);
+
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+
+        categoryPage.getResultsperpageSelectPage().selectByVisibleText("12");
+        int productscount = categoryPage.getProductnames().size();
+
+        assertThat("Results number isn't real", productscount, is(lessThanOrEqualTo(12)));
+
+    }
+
+    @Test
+    public void itemsPageTest() {
+        By womenMenu = By.linkText("WOMEN");
+        By newArrivals = By.linkText("New Arrivals");
+        List<By> meniu = Arrays.asList(womenMenu, newArrivals);
+
+        mouseOverAndClickLast(meniu);
+
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+        String itemscountastext = categoryPage.getItemsPageTest().getText();
+        String counts = itemscountastext.split(" ")[0];
+        int itemsnumber = Integer.parseInt(counts);
+        int productnames = categoryPage.getProductnames().size();
+        assertThat("Numbers are not equals", productnames, is(itemsnumber));
+
+    }
+
 
 }
 
