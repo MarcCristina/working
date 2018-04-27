@@ -5,6 +5,7 @@ import org.fasttrackit.webviews.CategoryPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+import javax.swing.text.html.ListView;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,6 +92,27 @@ public class CategoryTest extends TestBase {
 
     }
 
+    @Test
+    public void contentDisplayingasListTest() {
+        By womenMenu = By.linkText("WOMEN");
+        By newArrivals = By.linkText("New Arrivals");
+        List<By> meniu = Arrays.asList(womenMenu, newArrivals);
+
+        mouseOverAndClickLast(meniu);
+
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+        categoryPage.getListview().click();
+        assertThat("Products not display in list", categoryPage.getProductslist().isDisplayed() );
+
+
+
+
+
+
+
+
+
+    }
 
 }
 

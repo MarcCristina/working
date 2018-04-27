@@ -22,6 +22,28 @@ public class CategoryPage {
     @FindBy(css = ".amount strong")
     private WebElement itemsPageTest;
 
+    @FindBy(className = "grid")
+    private WebElement gridviewlist;
+
+    public WebElement getContentDisplayingTest() {
+        return gridviewlist;
+    }
+
+    @FindBy(className = "list")
+    private WebElement listview;
+
+    public WebElement getListview() {
+        return listview;
+
+    }
+
+    @FindBy(className = "products-list")
+    private WebElement productslist;
+
+    public WebElement getProductslist() {
+        return productslist;
+    }
+
     public WebElement getItemsPageTest() {
         return itemsPageTest;
 
