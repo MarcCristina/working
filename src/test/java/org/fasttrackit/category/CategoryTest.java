@@ -2,6 +2,8 @@ package org.fasttrackit.category;
 
 import org.fasttrackit.TestBase;
 import org.fasttrackit.webviews.CategoryPage;
+import org.fasttrackit.webviews.ProductDetailsPage;
+import org.fasttrackit.webviews.ShoppingCartPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -102,19 +104,46 @@ public class CategoryTest extends TestBase {
 
         CategoryPage categoryPage = initElements(CategoryPage.class);
         categoryPage.getListview().click();
-        assertThat("Products not display in list", categoryPage.getProductslist().isDisplayed() );
+        assertThat("Products not display in list", categoryPage.getProductslist().isDisplayed());
+    }
+
+    @Test
+    public void addProductsWithSpecificSizesAndColorsToCart() {
+
+        By womenCategoryLocator = By.xpath("//a[text() = 'Women']");
+        By newArrivalsSubCategoryLocator = By.xpath("//a[text() = 'New Arrivals']");
+
+        mouseOverAndClickLast(Arrays.asList(womenCategoryLocator, newArrivalsSubCategoryLocator));
+
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+
+        categoryPage.getViewdetailsbutton().click();
+
+        ProductDetailsPage productDetailsPage = initElements(ProductDetailsPage.class);
+
+        productDetailsPage.getPinkcolorbutton().click();
+
+        productDetailsPage.getSmallsizebutton().click();
+
+        productDetailsPage.getGetAddtoocart().click();
+
+        ShoppingCartPage shoppingCartPage = initElements(ShoppingCartPage.class);
+        String productColor = shoppingCartPage.getProductcolor().getText();
+        String productSize = shoppingCartPage.getProductsize().getText();
+
+        assertThat("Product color is different than the one added to cart", productColor.trim(), is("Pink"));
+        assertThat("Product size is different than the one added to cart", productSize.trim(), is("S"));
+    }
 
 
-
-
-
-
+    @Test
+    public void addProductsWithLimitedQuantityAndPrice(){
 
 
 
     }
-
 }
+
 
 
 

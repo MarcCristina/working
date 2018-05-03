@@ -32,6 +32,13 @@ public class CategoryPage {
     @FindBy(className = "list")
     private WebElement listview;
 
+    @FindBy(linkText = "VIEW DETAILS")
+    private WebElement viewdetailsbutton;
+
+    public WebElement getViewdetailsbutton() {
+        return viewdetailsbutton;
+    }
+
     public WebElement getListview() {
         return listview;
 
