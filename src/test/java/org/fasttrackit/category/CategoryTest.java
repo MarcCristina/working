@@ -2,15 +2,21 @@ package org.fasttrackit.category;
 
 import org.fasttrackit.TestBase;
 import org.fasttrackit.webviews.CategoryPage;
+import org.fasttrackit.webviews.Header;
 import org.fasttrackit.webviews.ProductDetailsPage;
 import org.fasttrackit.webviews.ShoppingCartPage;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import javax.swing.text.html.ListView;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
@@ -74,7 +80,6 @@ public class CategoryTest extends TestBase {
         int productscount = categoryPage.getProductnames().size();
 
         assertThat("Results number isn't real", productscount, is(lessThanOrEqualTo(12)));
-
     }
 
     @Test
@@ -116,15 +121,11 @@ public class CategoryTest extends TestBase {
         mouseOverAndClickLast(Arrays.asList(womenCategoryLocator, newArrivalsSubCategoryLocator));
 
         CategoryPage categoryPage = initElements(CategoryPage.class);
-
         categoryPage.getViewdetailsbutton().click();
 
         ProductDetailsPage productDetailsPage = initElements(ProductDetailsPage.class);
-
         productDetailsPage.getPinkcolorbutton().click();
-
         productDetailsPage.getSmallsizebutton().click();
-
         productDetailsPage.getGetAddtoocart().click();
 
         ShoppingCartPage shoppingCartPage = initElements(ShoppingCartPage.class);
@@ -135,14 +136,71 @@ public class CategoryTest extends TestBase {
         assertThat("Product size is different than the one added to cart", productSize.trim(), is("S"));
     }
 
-
     @Test
-    public void addProductsWithLimitedQuantityAndPrice(){
+    public void addProduct() {
+        Header header = initElements(Header.class);
+        header.getSearchField().sendKeys("vase" + Keys.ENTER);
+
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+        categoryPage.getViewdetailsbutton().click();
+
+        ProductDetailsPage productDetailsPage = initElements(ProductDetailsPage.class);
+        for (WebElement quantityfield : productDetailsPage.getQuantityfield()) {
+            quantityfield.sendKeys("1");
+        }
+        productDetailsPage.getGetAddtoocart().click();
 
 
+        assertThat("Products are not in cart", getSuccesedmessageContainer().isDisplayed());
+        assertThat("Unespected success message", getSuccesedmessageContainer().getText(), containsString("was added to your shopping cart"));
 
     }
+
+    @Test
+    public void emptyMiniCart() {
+        Header header = initElements(Header.class);
+        header.getMiniCartButton().click();
+
+        assertThat("Not products into the cart", header.getEmptyMiniCartMessage().isDisplayed());
+        assertThat("Unespected message displayed", header.getEmptyMiniCartMessage().getText(), is("You have no items in your shopping cart."));
+
+    }
+
+    @Test
+    public void productDisplayedinMiniCartTest() throws InterruptedException {
+        By womenCategoryLocator = By.xpath("//a[text() = 'Women']");
+        By newArrivalsSubCategoryLocator = By.xpath("//a[text() = 'New Arrivals']");
+
+        mouseOverAndClickLast(Arrays.asList(womenCategoryLocator, newArrivalsSubCategoryLocator));
+
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+        categoryPage.getViewdetailsbutton().click();
+
+        ProductDetailsPage productDetailsPage = initElements(ProductDetailsPage.class);
+        productDetailsPage.getPinkcolorbutton().click();
+        productDetailsPage.getSmallsizebutton().click();
+        productDetailsPage.getGetAddtoocart().click();
+
+        ShoppingCartPage shoppingCartPage = initElements(ShoppingCartPage.class);
+        String productColor = shoppingCartPage.getProductcolor().getText();
+        String productSize = shoppingCartPage.getProductsize().getText();
+
+        assertThat("Product color is different than the one added to cart", productColor.trim(), is("Pink"));
+        assertThat("Product size is different than the one added to cart", productSize.trim(), is("S"));
+
+        Header header = initElements(Header.class);
+        header.getMiniCartButton().click();
+        Thread.sleep(1000);
+
+        assertThat("Empty cart", header.getProductNameMiniCart().isDisplayed());
+
+        assertThat("Unespected product name are displayed", header.getProductNameMiniCart().getText(), is("ELIZABETH KNIT TOP"));
+
+    }
+
+
 }
+
 
 
 

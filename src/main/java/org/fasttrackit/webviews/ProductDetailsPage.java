@@ -3,6 +3,8 @@ package org.fasttrackit.webviews;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class ProductDetailsPage {
 
     @FindBy(name = "pink")
@@ -19,14 +21,19 @@ public class ProductDetailsPage {
         return smallsizebutton;
     }
 
-    @FindBy(css = ".product-options-bottom .btn-cart")
+    @FindBy(css = ".add-to-cart .btn-cart")
     private WebElement getAddtoocart;
 
     public WebElement getGetAddtoocart() {
         return getAddtoocart;
     }
 
+    @FindBy(className = "qty")
+    private List<WebElement> quantityfield;
 
+    public List<WebElement> getQuantityfield() {
+        return quantityfield;
+    }
 }
 
 

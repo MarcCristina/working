@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.List;
 
 public class CategoryPage {
+
     @FindBy(css = ".category-title h1")
     private WebElement title;
 
@@ -72,6 +73,7 @@ public class CategoryPage {
     public WebElement getTitle() {
         return title;
     }
+
 
 }
 
