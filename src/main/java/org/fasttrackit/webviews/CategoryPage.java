@@ -74,6 +74,12 @@ public class CategoryPage {
         return title;
     }
 
+    @FindBy(css = ".product-info .btn-cart")
+    private WebElement getAddtoocart;
+
+    public WebElement getGetAddtoocart() {
+        return getAddtoocart;
+    }
 
 }
 

@@ -34,6 +34,10 @@ public class ProductDetailsPage {
     public List<WebElement> getQuantityfield() {
         return quantityfield;
     }
+
+
+
 }
+
 
 

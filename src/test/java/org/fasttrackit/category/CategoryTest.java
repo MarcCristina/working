@@ -1,18 +1,13 @@
 package org.fasttrackit.category;
 
 import org.fasttrackit.TestBase;
-import org.fasttrackit.webviews.CategoryPage;
-import org.fasttrackit.webviews.Header;
-import org.fasttrackit.webviews.ProductDetailsPage;
-import org.fasttrackit.webviews.ShoppingCartPage;
+import org.fasttrackit.webviews.*;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.FindBy;
 
-import javax.swing.text.html.ListView;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +15,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+
 
 public class CategoryTest extends TestBase {
 
@@ -198,7 +194,54 @@ public class CategoryTest extends TestBase {
 
     }
 
+    @Test
+    public void succesufullyBuyProduct() throws InterruptedException {
 
+
+        By accessoriesCategoryLocator = By.xpath("//a[text()='Accessories']");
+        By jewelryCategoryLocator = By.cssSelector(" ul > li.level1.nav-3-2 > a");
+
+        mouseOverAndClickLast(Arrays.asList(accessoriesCategoryLocator, jewelryCategoryLocator));
+        CategoryPage categoryPage = initElements(CategoryPage.class);
+
+        categoryPage.getGetAddtoocart().click();
+        waitForPageToLoad(3000);
+
+        assertThat("Products are not in cart", getSuccesedmessageContainer().isDisplayed());
+        assertThat("Unespected success message", getSuccesedmessageContainer().getText(), containsString("was added to your shopping cart"));
+
+        ShoppingCartPage shoppingCartPage = initElements(ShoppingCartPage.class);
+        shoppingCartPage.getCountrySelectList().selectByVisibleText("România");
+
+        shoppingCartPage.getRegionSelectList().selectByVisibleText("Cluj");
+        shoppingCartPage.getCityField().sendKeys("Cluj-Napoca");
+        shoppingCartPage.getCityCode().sendKeys("400290");
+        shoppingCartPage.getProceedCheckout().click();
+        shoppingCartPage.getCheckoutMethodContinuingButton().click();
+
+        BillingInformationPage billingInformationPage = fillInBillingInformation();
+        billingInformationPage.getExpeditedShippingMethod().click();
+    }
+
+    private BillingInformationPage fillInBillingInformation() {
+        BillingInformationPage billingInformationPage = initElements(BillingInformationPage.class);
+        billingInformationPage.getFirstNameField().sendKeys("Cristina");
+        billingInformationPage.getMiddleNameField().sendKeys("Ramona");
+        billingInformationPage.getLastNameField().sendKeys("Marc");
+        billingInformationPage.getCompanyField().sendKeys("AmbitTech");
+        billingInformationPage.getEmailField().sendKeys("crys_20062006@yahoo.com");
+        billingInformationPage.getStreetField().sendKeys("Donath 23");
+        billingInformationPage.getGetStreetField2().sendKeys("Donath 23");
+        billingInformationPage.getCountryField().sendKeys("România");
+        billingInformationPage.getStateSelectList().selectByVisibleText("Cluj");
+        billingInformationPage.getCityField().sendKeys("Cluj-Napoca");
+        billingInformationPage.getPostCodeField().sendKeys("400290");
+        billingInformationPage.getTelephoneField().sendKeys("0754622407");
+        billingInformationPage.getFaxField().sendKeys("0364622407");
+
+        return billingInformationPage;
+
+    }
 }
 
 
