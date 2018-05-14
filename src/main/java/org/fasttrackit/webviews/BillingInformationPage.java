@@ -109,6 +109,24 @@ public class BillingInformationPage {
     public WebElement getExpeditedShippingMethod() {
         return expeditedShippingMethod;
     }
-    @FindBy("")
 
+    @FindBy(css = "#shipping-method-buttons-container .button")
+    private WebElement continueButtonfromShippingMethod;
+
+    public WebElement getContinueButtonfromShippingMethod() {
+        return continueButtonfromShippingMethod;
+    }
+    @FindBy(css = "#payment-buttons-container .button")
+    private WebElement continueButtonsfromPaymentInformation;
+
+    public WebElement getContinueButtonfromPaymentInformation() {
+        return continueButtonsfromPaymentInformation;
+    }
+    @FindBy(xpath = "//button[@title='Place Order']")
+    private WebElement placeOrderButton;
+
+    public WebElement getPlaceOrderButton() {
+        return placeOrderButton;
+    }
 }
+

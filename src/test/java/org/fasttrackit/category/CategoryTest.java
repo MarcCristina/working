@@ -221,6 +221,13 @@ public class CategoryTest extends TestBase {
 
         BillingInformationPage billingInformationPage = fillInBillingInformation();
         billingInformationPage.getExpeditedShippingMethod().click();
+        Thread.sleep(1000);
+        billingInformationPage.getContinueButtonfromShippingMethod().click();
+        Thread.sleep(1000);
+        billingInformationPage.getContinueButtonfromPaymentInformation().click();
+        billingInformationPage.getPlaceOrderButton().click();
+        Thread.sleep(5000);
+        assertThat("Confirmation message was not displayed", getpageTitleContainer().getText(), is("YOUR ORDER HAS BEEN RECEIVED."));
     }
 
     private BillingInformationPage fillInBillingInformation() {
@@ -238,8 +245,9 @@ public class CategoryTest extends TestBase {
         billingInformationPage.getPostCodeField().sendKeys("400290");
         billingInformationPage.getTelephoneField().sendKeys("0754622407");
         billingInformationPage.getFaxField().sendKeys("0364622407");
-
+        billingInformationPage.getContinueButton().click();
         return billingInformationPage;
+
 
     }
 }

@@ -71,5 +71,7 @@ public class TestBase {
         return driver.findElement(By.className("success-msg"));
 
     }
-}
+    protected WebElement getpageTitleContainer(){
+        return driver.findElement(By.cssSelector(".page-title h1"));
+}}
 
